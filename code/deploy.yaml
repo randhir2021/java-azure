@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hellojava
+  name: hellojava
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hellojava
+  template:
+    metadata:
+      labels:
+        app: hellojava
+    spec:
+      containers:
+      - image: gauravreg.azurecr.io/hellojava
+        name: hellojava
+        ports:
+        - containerPort: 8080
+          name: hellojava
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellojava
+spec:
+  type: LoadBalancer
+  selector:
+    app: hellojava # Replace with your app label selector
+  ports:
+    - protocol: TCP
+      port: 80  # Port exposed by the service
+      targetPort: 8080  # Port on the pods to forward traffic to
